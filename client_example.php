@@ -1,11 +1,11 @@
 <?php
-// client_example.php
+require_once 'vendor/autoload.php';
 
-require 'Bind9ApiClient.php';
+use Namingo\Bind9Api\ApiClient;
 
 try {
     // Initialize the client with the API server's base URL
-    $apiClient = new Bind9ApiClient('http://localhost:7650');
+    $apiClient = new ApiClient('http://localhost:7650');
 
     // Authenticate and obtain a token
     $apiClient->login('admin', 'password123');

@@ -1,12 +1,11 @@
 <?php
-// Bind9ApiClient.php
 
-require 'vendor/autoload.php';
+namespace Namingo\Bind9Api;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
-class Bind9ApiClient
+class ApiClient
 {
     private $client;
     private $baseUrl;

@@ -1,5 +1,22 @@
 {
+    "name": "namingo/bind9-api-client",
+    "description": "The bind9-api-client is a PHP client library designed to interact with the bind9-api-server.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Namingo Team",
+            "email": "help@namingo.org"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Namingo\\Bind9Api\\": "src/"
+        }
+    },
     "require": {
-        "guzzlehttp/guzzle": "^7.9"
+        "php": ">=8.2",
+        "ext-swoole": "*",
+		"guzzlehttp/guzzle": "^7.9"
     }
 }
