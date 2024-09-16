@@ -12,6 +12,7 @@ class ApiClient
     private $username;
     private $password;
     private $debugMode;
+    private $authToken;
 
     /**
      * Constructor
@@ -59,11 +60,16 @@ class ApiClient
             ]);
 
             $data = json_decode($response->getBody(), true);
-        } catch (RequestException $e) {
+            $this->authToken = $data['token'] ?? null;
+            
+            if (!$this->authToken) {
+                throw new \Exception('Failed to retrieve token from login response.');
+            }
+        } catch (\RequestException $e) {
             $message = $e->hasResponse()
                 ? $e->getResponse()->getBody()->getContents()
                 : $e->getMessage();
-            throw new Exception("Authentication failed: " . $message);
+            throw new \Exception("Authentication failed: " . $message);
         }
     }
 
@@ -224,6 +230,10 @@ class ApiClient
         if (!isset($options['headers'])) {
             $options['headers'] = [];
         }
+        
+        if ($this->authToken) {
+            $options['headers']['Authorization'] = 'Bearer ' . $this->authToken;
+        }
 
         try {
             $response = $this->client->request($method, $uri, $options);
@@ -234,7 +244,7 @@ class ApiClient
             $message = $e->hasResponse()
                 ? $e->getResponse()->getBody()->getContents()
                 : $e->getMessage();
-            throw new Exception("API request failed: " . $message);
+            throw new \Exception("API request failed: " . $message);
         }
     }
 }
