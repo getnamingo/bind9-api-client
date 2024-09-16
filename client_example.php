@@ -5,14 +5,10 @@ require 'Bind9ApiClient.php';
 
 try {
     // Initialize the client with the API server's base URL
-    $apiClient = new Bind9ApiClient('http://localhost:9501');
+    $apiClient = new Bind9ApiClient('http://localhost:7650');
 
-    // Option 1: Authenticate and obtain a token
+    // Authenticate and obtain a token
     $apiClient->login('admin', 'password123');
-
-    // Option 2: Use a sample JWT token (for testing purposes)
-    /* $sampleToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiaW5kOSthcGkiLCJpYXQiOjE2ODg3NzQ4MDAsImV4cCI6MTY4ODc3ODQwMH0.WxqN1IYJxvFSxQw5Kf3CqKfyQzF5QfEjUJiL1K6eQYE';
-    $apiClient->setJwtToken($sampleToken); */
 
     // 1. List all zones
     $zones = $apiClient->getZones();

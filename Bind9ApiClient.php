@@ -10,7 +10,6 @@ class Bind9ApiClient
 {
     private $client;
     private $baseUrl;
-    private $jwtToken;
     private $username;
     private $password;
     private $debugMode;
@@ -43,7 +42,7 @@ class Bind9ApiClient
     }
 
     /**
-     * Authenticate and obtain JWT token
+     * Authenticate
      *
      * @param string $username
      * @param string $password
@@ -61,28 +60,12 @@ class Bind9ApiClient
             ]);
 
             $data = json_decode($response->getBody(), true);
-            if (isset($data['token'])) {
-                $this->jwtToken = $data['token'];
-            } else {
-                throw new Exception('JWT token not found in response.');
-            }
         } catch (RequestException $e) {
             $message = $e->hasResponse()
                 ? $e->getResponse()->getBody()->getContents()
                 : $e->getMessage();
             throw new Exception("Authentication failed: " . $message);
         }
-    }
-
-    /**
-     * Set the JWT token manually (useful for testing with a sample token)
-     *
-     * @param string $token
-     * @return void
-     */
-    public function setJwtToken(string $token): void
-    {
-        $this->jwtToken = $token;
     }
 
     /**
@@ -241,10 +224,6 @@ class Bind9ApiClient
     {
         if (!isset($options['headers'])) {
             $options['headers'] = [];
-        }
-
-        if ($this->jwtToken) {
-            $options['headers']['Authorization'] = "Bearer {$this->jwtToken}";
         }
 
         try {
