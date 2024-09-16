@@ -152,30 +152,80 @@ class Bind9ApiClient
     /**
      * Update a DNS record in a zone
      *
-     * @param string $zoneName
-     * @param string $recordId
-     * @param array $record Associative array with keys: name, type, ttl, rdata
-     * @return array
+     * @param string $zoneName The name of the DNS zone.
+     * @param array $currentRecord Associative array with keys: name, type, rdata
+     * @param array $newRecord Associative array with keys: name, ttl, rdata, comment (optional)
+     * @return array Response from the API
      * @throws Exception on failure
      */
-    public function updateRecord(string $zoneName, string $recordId, array $record): array
+    public function updateRecord(string $zoneName, array $currentRecord, array $newRecord): array
     {
-        return $this->request('PUT', "/zones/{$zoneName}/records/{$recordId}", [
-            'json' => $record,
+        // Validate current record identification
+        if (
+            empty($currentRecord['name']) ||
+            empty($currentRecord['type']) ||
+            empty($currentRecord['rdata'])
+        ) {
+            throw new InvalidArgumentException('Current record name, type, and rdata are required for identification.');
+        }
+
+        // Prepare the payload
+        $payload = [
+            'current_name' => $currentRecord['name'],
+            'current_type' => strtoupper($currentRecord['type']),
+            'current_rdata' => $currentRecord['rdata'],
+        ];
+
+        // Include new record data if provided
+        if (isset($newRecord['name'])) {
+            $payload['new_name'] = $newRecord['name'];
+        }
+        if (isset($newRecord['ttl'])) {
+            $payload['new_ttl'] = intval($newRecord['ttl']);
+        }
+        if (isset($newRecord['rdata'])) {
+            $payload['new_rdata'] = $newRecord['rdata'];
+        }
+        if (isset($newRecord['comment'])) {
+            $payload['new_comment'] = $newRecord['comment'];
+        }
+
+        // Send the PUT request to the updated endpoint
+        return $this->request('PUT', "/zones/{$zoneName}/records/update", [
+            'json' => $payload,
         ]);
     }
 
     /**
      * Delete a DNS record from a zone
      *
-     * @param string $zoneName
-     * @param string $recordId
-     * @return array
+     * @param string $zoneName The name of the DNS zone.
+     * @param array $record Associative array with keys: name, type, rdata
+     * @return array Response from the API
      * @throws Exception on failure
      */
-    public function deleteRecord(string $zoneName, string $recordId): array
+    public function deleteRecord(string $zoneName, array $record): array
     {
-        return $this->request('DELETE', "/zones/{$zoneName}/records/{$recordId}");
+        // Validate record identification
+        if (
+            empty($record['name']) ||
+            empty($record['type']) ||
+            empty($record['rdata'])
+        ) {
+            throw new InvalidArgumentException('Record name, type, and rdata are required for identification.');
+        }
+
+        // Prepare the payload
+        $payload = [
+            'name' => $record['name'],
+            'type' => strtoupper($record['type']),
+            'rdata' => $record['rdata'],
+        ];
+
+        // Send the DELETE request to the updated endpoint
+        return $this->request('DELETE', "/zones/{$zoneName}/records/delete", [
+            'json' => $payload,
+        ]);
     }
 
     /**

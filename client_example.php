@@ -8,13 +8,11 @@ try {
     $apiClient = new Bind9ApiClient('http://localhost:9501');
 
     // Option 1: Authenticate and obtain a token
-    /*
     $apiClient->login('admin', 'password123');
-    */
 
     // Option 2: Use a sample JWT token (for testing purposes)
-    $sampleToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiaW5kOSthcGkiLCJpYXQiOjE2ODg3NzQ4MDAsImV4cCI6MTY4ODc3ODQwMH0.WxqN1IYJxvFSxQw5Kf3CqKfyQzF5QfEjUJiL1K6eQYE';
-    $apiClient->setJwtToken($sampleToken);
+    /* $sampleToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiaW5kOSthcGkiLCJpYXQiOjE2ODg3NzQ4MDAsImV4cCI6MTY4ODc3ODQwMH0.WxqN1IYJxvFSxQw5Kf3CqKfyQzF5QfEjUJiL1K6eQYE';
+    $apiClient->setJwtToken($sampleToken); */
 
     // 1. List all zones
     $zones = $apiClient->getZones();
@@ -62,11 +60,17 @@ try {
     // 6. Update a DNS record
     /*
     $zoneName = 'example.com';
-    $recordId = '00000003'; // Replace with actual record ID
-    $updatedRecord = [
+    // Define the current record to identify it
+    $currentRecord = [
+        'name' => 'www',
+        'type' => 'A',
+        'rdata' => '192.0.2.1'
+    ];
+    // Define the new data for the record
+    $newRecord = [
         'rdata' => '192.0.2.2'
     ];
-    $updateRecordResponse = $apiClient->updateRecord($zoneName, $recordId, $updatedRecord);
+    $updateRecordResponse = $apiClient->updateRecord($zoneName, $currentRecord, $newRecord);
     echo "Update Record Response:\n";
     print_r($updateRecordResponse);
     */
@@ -74,8 +78,13 @@ try {
     // 7. Delete a DNS record
     /*
     $zoneName = 'example.com';
-    $recordId = '00000003'; // Replace with actual record ID
-    $deleteRecordResponse = $apiClient->deleteRecord($zoneName, $recordId);
+    // Define the record to delete
+    $record = [
+        'name' => 'www',
+        'type' => 'A',
+        'rdata' => '192.0.2.2'
+    ];
+    $deleteRecordResponse = $apiClient->deleteRecord($zoneName, $record);
     echo "Delete Record Response:\n";
     print_r($deleteRecordResponse);
     */
