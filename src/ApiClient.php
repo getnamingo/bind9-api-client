@@ -85,6 +85,17 @@ class ApiClient
     }
 
     /**
+     * Get all slave zones
+     *
+     * @return array
+     * @throws Exception on failure
+     */
+    public function getSlaveZones(): array
+    {
+        return $this->request('GET', '/slave-zones');
+    }
+
+    /**
      * Add a new zone
      *
      * @param string $zoneName
@@ -99,6 +110,21 @@ class ApiClient
     }
 
     /**
+     * Add a new slave zone
+     *
+     * @param string $zoneName
+     * @param string $masterIp
+     * @return array
+     * @throws Exception on failure
+     */
+    public function addSlaveZone(string $zoneName, string $masterIp): array
+    {
+        return $this->request('POST', '/slave-zones', [
+            'json' => ['zone' => $zoneName, 'master_ip' => $masterIp],
+        ]);
+    }
+
+    /**
      * Delete a zone
      *
      * @param string $zoneName
@@ -108,6 +134,18 @@ class ApiClient
     public function deleteZone(string $zoneName): array
     {
         return $this->request('DELETE', "/zones/{$zoneName}");
+    }
+
+    /**
+     * Delete a slave zone
+     *
+     * @param string $zoneName
+     * @return array
+     * @throws Exception on failure
+     */
+    public function deleteSlaveZone(string $zoneName): array
+    {
+        return $this->request('DELETE', "/slave-zones/{$zoneName}");
     }
 
     /**

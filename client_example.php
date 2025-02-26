@@ -85,6 +85,30 @@ try {
     print_r($deleteRecordResponse);
     */
 
+    // 8. List all slave zones
+    /*
+    $slaveZones = $apiClient->getSlaveZones();
+    echo "Slave Zones:\n";
+    print_r($slaveZones);
+    */
+
+    // 9. Add a new slave zone
+    /*
+    $newSlaveZone = 'example.com';
+    $masterIp = '192.168.1.1'; // Master BIND9 server IP
+    $addSlaveZoneResponse = $apiClient->addSlaveZone($newSlaveZone, $masterIp);
+    echo "Add Slave Zone Response:\n";
+    print_r($addSlaveZoneResponse);
+    */
+
+    // 10. Delete a slave zone
+    /*
+    $slaveZoneToDelete = 'example.com';
+    $deleteSlaveZoneResponse = $apiClient->deleteSlaveZone($slaveZoneToDelete);
+    echo "Delete Slave Zone Response:\n";
+    print_r($deleteSlaveZoneResponse);
+    */
+
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage() . "\n";
 }
