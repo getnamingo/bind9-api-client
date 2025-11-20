@@ -1,5 +1,5 @@
 # bind9-api-client
-The bind9-api-client is a PHP client library designed to interact with the [bind9-api-server](https://github.com/getnamingo/bind9-api-server).
+The bind9-api-client is a PHP client library designed to interact with the [bind9-api-server](https://github.com/getnamingo/bind9-api-server) or the [bind9-api-server-sqlite](https://github.com/getnamingo/bind9-api-server-sqlite).
 
 ## Installation Guide (Ubuntu 22.04/Ubuntu 24.04/Debian 12)
 
