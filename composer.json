@@ -16,7 +16,6 @@
     },
     "require": {
         "php": ">=8.2",
-        "ext-swoole": "*",
         "guzzlehttp/guzzle": "^7.9"
     }
 }
